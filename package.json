@@ -1,0 +1,29 @@
+{
+  "name": "uniswap-watchdog",
+  "version": "0.0.1",
+  "description": "Watcher script to poll current prices",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && node dist/index",
+    "build": "npm run copy  && babel --presets es2015 ./src -d ./dist -s",
+    "copy": "babel src/abi --out-dir dist/abi --copy-files"
+  },
+  "author": "Manan Patel (innoprenuer)",
+  "license": "ISC",
+  "dependencies": {
+    "bignumber.js": "^9.0.0",
+    "bittrex-signalr-client": "^1.1.9",
+    "dotenv": "^8.0.0",
+    "ethereumjs-tx": "^2.0.0",
+    "js-yaml": "^3.13.1",
+    "node-fetch": "^2.6.0",
+    "path": "^0.12.7",
+    "redux": "^4.0.1",
+    "web3": "^1.0.0-beta.55"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-dotenv": "^0.1.1",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}
