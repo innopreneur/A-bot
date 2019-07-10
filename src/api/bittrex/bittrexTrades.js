@@ -21,5 +21,24 @@ export default class BittrexTrades {
         let data = await response.json()
         return data;
     }
+    
+    async getCurrencies(){
+        let url = `${publicBaseUrl}/getcurrencies`;
+        let response = await fetch(url);
+        let data = await response.json()
+        return data;
+    } 
+
+    async getTxFee(currency){
+        let url = `${publicBaseUrl}/getcurrencies`;
+        let response = await fetch(url);
+        let data = await response.json()
+        let {result} = data;
+        let curr = result.find(item => {
+            return item.Currency == currency;
+        });
+        return curr.TxFee;
+    } 
+
 }
 

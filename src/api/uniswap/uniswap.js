@@ -320,6 +320,16 @@ export default class Uniswap {
     return readableBalance(outputTokens);
   }
 
+  /**
+   * get exchange for a given token address
+   * @param {} tokenAddress 
+   */
+  async getExchange(tokenAddress) {
+    //instantiate factory contract
+    const factoryContract = new web3.eth.Contract(factoryABI, FACTORY_ADDRESS);
+    return await factoryContract.methods.getExchange(tokenAddress).call();
+  }
+
 }
 
 

@@ -10,7 +10,9 @@ import {default as store} from './store';
 import BittrexMarkets from './api/bittrex/bittrexMarkets';
 import BittrexTrades from './api/bittrex/bittrexTrades';
 import Uniswap from './api/uniswap/uniswap';
+import CoinMarketCap from './api/coinmarketcap/index';
 import BigNumber from 'bignumber.js';
+import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
 
 //watchSellEth('0x58b6a8a3302369daec383334672404ee733ab239', 1);
 //watchSellToken('0x985dd3d42de1e256d09e1c10f112bccb8015ad41', 1);
@@ -29,10 +31,14 @@ try {
     bittrexMarkets.handleOrderBookCreationEvent();
     bittrexMarkets.handleOrderBookUpdateEvent(); */
 
-    let bittrexTrades = new BittrexTrades(store);
-    let uniswap = new Uniswap(store);
+    //let bittrexTrades = new BittrexTrades(store);
+    
+    //let uniswap = new Uniswap(store);
    
-    performSellBuyTx(bittrexTrades, uniswap);
+    //performSellBuyTx(bittrexTrades, uniswap);
+    
+    
+    
     /*let unsubscribe = store.subscribe(async () => {
         //let currentSeq = store.getState().markets[0].currentOrderSeq;
         //console.log(`Updated store (${currentSeq})- ${JSON.stringify(store.getState().markets[0].buyOrders)}`);
@@ -73,6 +79,12 @@ try {
     }, 10);
 
     */
+
+
+    /******************* PAIR DISCOVERY ***************/
+    //discoverPairs();
+    getTxFee('GAM')
+   
 } catch (e) {
     console.log(e);
 }
@@ -115,4 +127,32 @@ async function performSellBuyTx(bittrexTrades, uniswap){
     // 4)  calculate Profit percentage
     calculateSellBuyDeal(outputTokenAmount, sell[0]);
 
+}
+
+async function discoverPairs(){
+    let cmcap = new CoinMarketCap(store);
+    let uniswap = new Uniswap(store);    
+    let bittrex = new BittrexTrades(store);
+    let bittrexCrypto = await bittrex.getCurrencies();
+    let {result} = bittrexCrypto;
+    let currencies = await Promise.all(result.map(item => item.Currency));
+    console.log(JSON.stringify(currencies));
+    console.log("*********************************")
+    let listings = await cmcap.getCryptoListings();
+    let { data } = listings;
+    data.map(async (item) => {
+        if(item.platform && item.platform.name == 'Ethereum'){
+            let exchangeAddress = await uniswap.getExchange(item.platform.token_address);
+            if(exchangeAddress != '0x0000000000000000000000000000000000000000'){
+                if(currencies.indexOf(item.symbol) != -1) {
+                    console.log(`${item.symbol},${item.name},${item.platform.token_address},${item.quote.USD.market_cap}, ${exchangeAddress}`);
+                }
+            }
+        }
+    })
+}
+
+async function getTxFee(currency){
+    let bittrexTrades = new BittrexTrades(store);
+    console.log(`TxFee - ${await bittrexTrades.getTxFee(currency)}`)
 }
