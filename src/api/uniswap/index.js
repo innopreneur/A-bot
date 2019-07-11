@@ -1,9 +1,9 @@
 const Web3  = require('web3');
 const BigNumber = require('bignumber.js');
 const { readableBalance, amountFormatter, parseAmount, parseEth} = require('../../utils');
-const exchangeABI = require('../../abi/exchange');
-const factoryABI = require('../../abi/factory');
-const tokenABI = require('../../abi/token');
+const exchangeABI = require('./abi/exchange');
+const factoryABI = require('./abi/factory');
+const tokenABI = require('./abi/token');
 const { sendTx } = require('../../utils/signer');
 import { FROM, FACTORY_ADDRESS, INFURA_NODE } from 'babel-dotenv';
 

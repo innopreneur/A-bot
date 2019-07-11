@@ -4,19 +4,15 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-import { findBetterDeal, calculateBuySellDeal, calculateSellBuyProfitability } from './watcher';
+import { findBetterDeal, calculateBuySellDeal, calculateSellBuyProfitability } from './utils/validator';
 import { PAIR } from 'babel-dotenv';
 import {default as store} from './store';
 import BittrexMarkets from './api/bittrex/bittrexMarkets';
-import BittrexTrades from './api/bittrex/bittrexTrades';
-import Uniswap from './api/uniswap/uniswap';
+import BittrexTrades from './api/bittrex';
+import Uniswap from './api/uniswap';
 import CoinMarketCap from './api/coinmarketcap/index';
 import BigNumber from 'bignumber.js';
 import { getAccountBalance } from './utils/balances';
-
-//watchSellEth('0x58b6a8a3302369daec383334672404ee733ab239', 1);
-//watchSellToken('0x985dd3d42de1e256d09e1c10f112bccb8015ad41', 1);
-
  
 // Get document, or throw exception on error
 try {
