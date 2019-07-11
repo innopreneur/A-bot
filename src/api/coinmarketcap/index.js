@@ -14,5 +14,13 @@ export default class CoinMarketCap {
         let data = await response.json()
         return data;
     }
+
+    async getTokenAddress(tokenSymbol){
+        let url = `${BASE_URL}/cryptocurrency/info?symbol=${tokenSymbol}`;
+        let response = await fetch(url, { headers: { 'X-CMC_PRO_API_KEY': API_KEY }});
+        let resp = await response.json()
+        let { data } = resp;
+        return data[tokenSymbol].platform.token_address;
+    }
 }
 

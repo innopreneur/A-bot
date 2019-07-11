@@ -1,13 +1,14 @@
 const Web3  = require('web3');
 const Tx = require('ethereumjs-tx').Transaction;
 const fetch = require("node-fetch");
+import { INFURA_NODE, GAS_PRICE_INFO, KEY } from 'babel-dotenv';
 
 
 async function sendTx(txData, from, to, execution, value) {
    
     try {
         //instantite web3
-        let web3 = new Web3(process.env.INFURA_NODE);
+        let web3 = new Web3(INFURA_NODE);
         //get current nonce
         let nonce = await web3.eth.getTransactionCount(from, "pending");
         console.log(`Nonce for ${from} - ${nonce}`);
@@ -29,7 +30,7 @@ async function sendTx(txData, from, to, execution, value) {
         
         let tx = new Tx(rawTransaction);
         //sign the transaction
-        let privKey = new Buffer.from(process.env.KEY, 'hex');
+        let privKey = new Buffer.from(KEY, 'hex');
         //sign the transaction
         tx.sign(privKey);
         console.log(`Signed tx`)
@@ -69,7 +70,7 @@ async function sendTx(txData, from, to, execution, value) {
 }
 
 async function getGasPrice(execution){
-    let response = await fetch(process.env.GAS_PRICE_INFO);
+    let response = await fetch(GAS_PRICE_INFO);
     let gasPrice = await response.json();
     
     switch (execution) {

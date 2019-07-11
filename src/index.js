@@ -12,7 +12,7 @@ import BittrexTrades from './api/bittrex/bittrexTrades';
 import Uniswap from './api/uniswap/uniswap';
 import CoinMarketCap from './api/coinmarketcap/index';
 import BigNumber from 'bignumber.js';
-import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
+import { getAccountBalance } from './utils/balances';
 
 //watchSellEth('0x58b6a8a3302369daec383334672404ee733ab239', 1);
 //watchSellToken('0x985dd3d42de1e256d09e1c10f112bccb8015ad41', 1);
@@ -83,7 +83,8 @@ try {
 
     /******************* PAIR DISCOVERY ***************/
     //discoverPairs();
-    getTxFee('GAM')
+    //getTxFee('GAM')
+    showAccountBalance();
    
 } catch (e) {
     console.log(e);
@@ -155,4 +156,9 @@ async function discoverPairs(){
 async function getTxFee(currency){
     let bittrexTrades = new BittrexTrades(store);
     console.log(`TxFee - ${await bittrexTrades.getTxFee(currency)}`)
+}
+
+async function showAccountBalance(){
+    console.log(await getAccountBalance('DAI'));
+    console.log(await getAccountBalance('ETH'));
 }
