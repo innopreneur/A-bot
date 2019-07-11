@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build && node dist/index",
     "build": "npm run copy  && babel --presets es2015 ./src -d ./dist -s",
-    "copy": "babel src/abi --out-dir dist/abi --copy-files"
+    "copy": "babel src/api/uniswap/abi --out-dir dist/api/uniswap/abi --copy-files"
   },
   "author": "Manan Patel (innoprenuer)",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "dotenv": "^8.0.0",
     "ethereumjs-tx": "^2.0.0",
     "node-fetch": "^2.6.0",
+    "nodemailer": "^6.2.1",
     "path": "^0.12.7",
     "redux": "^4.0.1",
     "web3": "^1.0.0-beta.55"

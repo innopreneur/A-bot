@@ -1,6 +1,6 @@
 const Web3  = require('web3');
 const BigNumber = require('bignumber.js');
-const { readableBalance, amountFormatter, parseAmount, parseEth} = require('../../utils');
+const { readableBalance, amountFormatter, parseAmount, parseEth} = require('../../utils/formatter');
 const exchangeABI = require('./abi/exchange');
 const factoryABI = require('./abi/factory');
 const tokenABI = require('./abi/token');

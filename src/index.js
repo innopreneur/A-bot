@@ -1,5 +1,3 @@
-require('dotenv').config();
-const yaml = require('js-yaml');
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
@@ -13,15 +11,11 @@ import Uniswap from './api/uniswap';
 import CoinMarketCap from './api/coinmarketcap/index';
 import BigNumber from 'bignumber.js';
 import { getAccountBalance } from './utils/balances';
+import { notifyByEmail } from './utils/notifier';
  
 // Get document, or throw exception on error
 try {
-    //read configuration
-    //let yamlPath = path.join(__dirname, '..', 'config.yaml');
-    //let config = yaml.safeLoad(fs.readFileSync(yamlPath, 'utf8'));
-    //initialize watchdogs
-    //initialize(config.watchers);
-    //console.log(`Initial State - ${JSON.stringify(store.getState())}`);
+   
    /*let bittrexMarkets = new BittrexMarkets(store);
     bittrexMarkets.subscribeToMarkets(['USDT-OCEAN']);
     bittrexMarkets.handleOrderBookCreationEvent();
@@ -77,11 +71,11 @@ try {
     */
 
 
-    /******************* PAIR DISCOVERY ***************/
+    
     //discoverPairs();
     //getTxFee('GAM')
-    showAccountBalance();
-   
+    //showAccountBalance();
+    notifyAboutTrade();
 } catch (e) {
     console.log(e);
 }
@@ -157,4 +151,8 @@ async function getTxFee(currency){
 async function showAccountBalance(){
     console.log(await getAccountBalance('DAI'));
     console.log(await getAccountBalance('ETH'));
+}
+
+async function notifyAboutTrade(){
+    await notifyByEmail();
 }
