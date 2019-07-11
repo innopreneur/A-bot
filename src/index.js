@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-import { findBetterDeal, calculateBuySellDeal, calculateSellBuyDeal } from './watcher';
+import { findBetterDeal, calculateBuySellDeal, calculateSellBuyProfitability } from './watcher';
 import { PAIR } from 'babel-dotenv';
 import {default as store} from './store';
 import BittrexMarkets from './api/bittrex/bittrexMarkets';
@@ -74,7 +74,7 @@ try {
         console.log(`-------------------------------`)
         //findBetterDeal(outputTokenAmount, ticker);
         //console.log( await uniswap.getPoolSize('OCEAN', inputToken))
-        calculateSellBuyDeal(outputTokenAmount, sell[0]);
+        calculateSellBuyProfitability(outputTokenAmount, sell[0]);
        
     }, 10);
 
@@ -126,7 +126,7 @@ async function performSellBuyTx(bittrexTrades, uniswap){
     let outputTokenAmount = await uniswap.getTokenToTokenInputPrice(inputToken, outputToken, Number(sell[0].Quantity));
 
     // 4)  calculate Profit percentage
-    calculateSellBuyDeal(outputTokenAmount, sell[0]);
+    calculateSellBuyProfitability(outputTokenAmount, sell[0]);
 
 }
 
